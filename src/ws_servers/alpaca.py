@@ -22,12 +22,14 @@ async def print_crypto_trade(t):
 
 class CrpytoServer(object):
     def __init__(self):
-        self.feed = 'iex'  # <- replace to SIP if you have PRO subscription
+        self.feed = 'iex'
         self.stream = Stream(data_feed=self.feed, raw_data=True)
+        """
         # stream.subscribe_trade_updates(print_trade_update)
         self.stream.subscribe_trades(print_trade, 'AAPL')
-        self.stream.subscribe_quotes(print_quote, 'IBM')
+        self.stream.subscribe_quotes(print_quote, 'IBM')        
         self.stream.subscribe_crypto_trades(print_crypto_trade, 'BTCUSD')
+        """
 
         @self.stream.on_status("*")
         async def _(status):
@@ -46,6 +48,9 @@ class CrpytoServer(object):
         async def _(luld):
             print('LULD', luld)
         """
+
+    def subscribe_crypto_trades(self, async_func, ticker):
+        self.stream.subscribe_crypto_trades(async_func, ticker)
 
     def run(self):
         self.stream.run()
